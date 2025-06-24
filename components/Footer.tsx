@@ -68,15 +68,32 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-gray-300 hover:text-primary-400 transition-colors">
+                <Link href="/blogs" className="text-gray-300 hover:text-primary-400 transition-colors">
                   Blog
                 </Link>
               </li>
             </ul>
           </div>
 
+          {/* Admin Access */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Admin</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/admin/login" className="text-gray-300 hover:text-primary-400 transition-colors">
+                  Admin Login
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin/dashboard" className="text-gray-300 hover:text-primary-400 transition-colors">
+                  Admin Dashboard
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Newsletter */}
-          <div className="lg:col-span-2">
+          <div>
             <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
             <p className="text-gray-300 mb-4">
               Stay updated with our latest articles and insights about sustainable agriculture.

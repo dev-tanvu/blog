@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, User, Search } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
+import HeaderSearch from '@/components/HeaderSearch';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,9 +38,7 @@ export default function Navbar() {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="p-2 text-gray-600 hover:text-primary-400 transition-colors">
-              <Search size={20} />
-            </button>
+            <HeaderSearch />
             <Link href="/login" className="text-gray-700 hover:text-primary-400 font-medium transition-colors">
               Login
             </Link>
@@ -91,6 +90,12 @@ export default function Navbar() {
               >
                 Contact
               </Link>
+              
+              {/* Mobile Search */}
+              <div className="px-3 py-2">
+                <HeaderSearch />
+              </div>
+              
               <div className="flex items-center space-x-4 px-3 py-2">
                 <Link
                   href="/login"
