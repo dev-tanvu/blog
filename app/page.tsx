@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import BlogCard from '@/components/BlogCard';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { ArrowRight, TrendingUp, Users, BookOpen, Award, Star, Quote } from 'lucide-react';
 
 const heroSlides = [
   {
@@ -84,26 +84,72 @@ const trendingArticles = [
   },
 ];
 
+const featuredAuthors = [
+  {
+    name: 'Dr. Sarah Johnson',
+    expertise: 'Sustainable Agriculture',
+    image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=300',
+    articles: 24,
+    followers: '12.5K'
+  },
+  {
+    name: 'Mike Davis',
+    expertise: 'Smart Farming Tech',
+    image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=300',
+    articles: 18,
+    followers: '8.2K'
+  },
+  {
+    name: 'Emily Chen',
+    expertise: 'Organic Methods',
+    image: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=300',
+    articles: 31,
+    followers: '15.7K'
+  },
+];
+
+const testimonials = [
+  {
+    name: 'John Martinez',
+    role: 'Farm Owner',
+    content: 'The insights from Agrob have transformed my farming practices. My yields have increased by 30% while reducing environmental impact.',
+    image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150'
+  },
+  {
+    name: 'Lisa Thompson',
+    role: 'Agricultural Consultant',
+    content: 'Agrob is my go-to resource for staying updated with the latest sustainable farming trends and technologies.',
+    image: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150'
+  },
+];
+
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
-  };
+  // Auto-slide functionality
+  useEffect(() => {
+    if (!isHovered) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [isHovered]);
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[600px] overflow-hidden">
+      <section 
+        className="relative h-[600px] overflow-hidden"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div className="absolute inset-0">
           <img
             src={heroSlides[currentSlide].image}
             alt={heroSlides[currentSlide].title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-opacity duration-500"
           />
           <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         </div>
@@ -125,20 +171,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Carousel Controls */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-2 rounded-full transition-all"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-2 rounded-full transition-all"
-        >
-          <ChevronRight size={24} />
-        </button>
-
         {/* Carousel Indicators */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
           {heroSlides.map((_, index) => (
@@ -150,6 +182,42 @@ export default function Home() {
               }`}
             />
           ))}
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mx-auto mb-4">
+                <BookOpen className="w-8 h-8 text-primary-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">500+</h3>
+              <p className="text-gray-600">Articles Published</p>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mx-auto mb-4">
+                <Users className="w-8 h-8 text-primary-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">50K+</h3>
+              <p className="text-gray-600">Active Readers</p>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mx-auto mb-4">
+                <Award className="w-8 h-8 text-primary-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">25+</h3>
+              <p className="text-gray-600">Expert Authors</p>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center w-16 h-16 bg-primary-100 rounded-full mx-auto mb-4">
+                <TrendingUp className="w-8 h-8 text-primary-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">95%</h3>
+              <p className="text-gray-600">Reader Satisfaction</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -176,6 +244,98 @@ export default function Home() {
             <Link href="/blogs" className="btn-secondary">
               View All Articles
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Authors Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Featured Authors
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Meet our expert contributors who share their knowledge and insights in sustainable agriculture.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featuredAuthors.map((author, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 text-center card-hover">
+                <img
+                  src={author.image}
+                  alt={author.name}
+                  className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{author.name}</h3>
+                <p className="text-primary-400 font-medium mb-4">{author.expertise}</p>
+                <div className="flex justify-center space-x-6 text-sm text-gray-600">
+                  <div>
+                    <span className="font-semibold text-gray-900">{author.articles}</span>
+                    <p>Articles</p>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-gray-900">{author.followers}</span>
+                    <p>Followers</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-16 bg-primary-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Stay Updated with Latest Insights
+          </h2>
+          <p className="text-lg text-gray-600 mb-8">
+            Subscribe to our newsletter and get the latest articles, tips, and trends delivered to your inbox.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-400"
+            />
+            <button className="btn-primary">Subscribe</button>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              What Our Readers Say
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Hear from farmers and agricultural professionals who have benefited from our insights.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="bg-gray-50 rounded-xl p-8">
+                <Quote className="w-8 h-8 text-primary-400 mb-4" />
+                <p className="text-gray-700 mb-6 text-lg italic">"{testimonial.content}"</p>
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">{testimonial.name}</h4>
+                    <p className="text-gray-600">{testimonial.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
